@@ -17,6 +17,8 @@ concurrency:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+    env:
+      PYTHONPATH: ${{ github.workspace }}
     strategy:
       fail-fast: false
       matrix:
