@@ -42,7 +42,7 @@ class SensorFactory:
         return sensor_class(
             device_id=device_id,
             sensor_id=sensor_id,
-            warmup_seconds=config.get("warmup_seconds", 0.0),
+            warmup_seconds=config.get("warmup_seconds", 0.0),  # seconds; 0 = no warmup
             **params,
         )
 
