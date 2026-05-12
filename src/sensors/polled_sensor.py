@@ -9,8 +9,7 @@ import asyncio
 from abc import abstractmethod
 from src.sensors.base import Sensor, SensorReadError
 from src.common.models.sensor_reading import SensorReading
-
-POLLED_SENSOR_READ_TIMEOUT = 1.5  # Timeout in seconds
+from src.sensors.constants import POLLED_SENSOR_READ_TIMEOUT
 
 class PolledSensor(Sensor):
     """

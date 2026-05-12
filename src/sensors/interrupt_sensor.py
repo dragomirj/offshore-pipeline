@@ -8,8 +8,7 @@
 import asyncio
 from src.sensors.base import Sensor
 from src.common.models.sensor_reading import SensorReading
-
-INTERRUPT_SENSOR_MAX_QUEUE_SIZE = 64  # Maximum number of unprocessed events
+from src.sensors.constants import INTERRUPT_SENSOR_MAX_QUEUE_SIZE
 
 class InterruptSensor(Sensor):
     """
