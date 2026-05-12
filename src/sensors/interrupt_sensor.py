@@ -27,3 +27,7 @@ class InterruptSensor(Sensor):
             self._queue.put_nowait(readings)
         except asyncio.QueueFull:
             pass  # Older events have priority for ordered processing
+
+    @property
+    def blocks_on_read(self) -> bool:
+        return True

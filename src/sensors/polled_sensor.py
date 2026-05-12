@@ -29,3 +29,7 @@ class PolledSensor(Sensor):
 
     @abstractmethod
     async def _read_hardware(self) -> list[SensorReading]: ...
+
+    @property
+    def blocks_on_read(self) -> bool:
+        return True
