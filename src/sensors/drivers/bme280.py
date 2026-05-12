@@ -14,7 +14,7 @@ class BME280Sensor(PolledSensor):
     Channels : temperature_c (°C) · humidity_rh (% RH) · pressure_hpa (hPa)
     """
 
-    REQUIRED_PARAMS: set[str] = set({"i2c_address"})
+    REQUIRED_PARAMS: frozenset[str] = frozenset({"i2c_address"})
 
     def __init__(self, device_id: str, sensor_id: str, warmup_seconds: float, i2c_address: int = 0x77):
         super().__init__(device_id, sensor_id, warmup_seconds)

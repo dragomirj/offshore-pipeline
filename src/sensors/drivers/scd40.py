@@ -14,7 +14,7 @@ class SCD40Sensor(PolledSensor):
     Channels : co2_ppm (PPM) · temperature_c (°C) · humidity_rh (% RH)
     """
 
-    REQUIRED_PARAMS: set[str] = set()
+    REQUIRED_PARAMS: frozenset[str] = frozenset()
 
     def __init__(self, device_id: str, sensor_id: str, warmup_seconds: float):
         super().__init__(device_id, sensor_id, warmup_seconds)

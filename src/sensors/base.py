@@ -18,6 +18,8 @@ class Sensor(ABC):
     See: /src/sensors/polled_sensor.py, /src/sensors/interrupt_sensor.py
     """
 
+    REQUIRED_PARAMS: frozenset[str] = frozenset()  # Subclasses can override this to enforce required config params at creation time
+
     def __init__(self, device_id: str, sensor_id: str, warmup_seconds: float):
         self.device_id = device_id
         self.sensor_id = sensor_id
