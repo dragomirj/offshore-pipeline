@@ -21,15 +21,15 @@ class PolledSensor(Sensor):
 
     async def read(self) -> list[SensorReading]:
         if not self._ready:
-            raise SensorReadError(f"{self.sensor_id} not initialized.")
+            raise SensorReadError(f"Sensor '{self.sensor_id}' has not been initialized.")
         try:
             return await asyncio.wait_for(self._read_hardware(), timeout=POLLED_SENSOR_READ_TIMEOUT)
-        except asyncio.TimeoutError:
-            raise SensorReadError(f"{self.sensor_id} timed out.")
+        except asyncio.TimeoutError as exc:
+            raise SensorReadError(f"Sensor '{self.sensor_id}' timed out waiting for a reading.") from exc
 
     @abstractmethod
     async def _read_hardware(self) -> list[SensorReading]: ...
 
     @property
     def blocks_on_read(self) -> bool:
-        return True
+        return False
