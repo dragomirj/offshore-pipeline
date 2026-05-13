@@ -27,10 +27,10 @@ class Sensor(ABC):
         self._ready    = False
 
     async def initialize(self) -> None:
-        if self._warmup > 0:
-            await asyncio.sleep(self._warmup)
         try:
             await self._setup()
+            if self._warmup > 0:
+                await asyncio.sleep(self._warmup)
             self._ready = True
         except Exception:
             await self.close()
