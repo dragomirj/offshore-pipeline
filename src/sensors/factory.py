@@ -26,17 +26,15 @@ class SensorFactory:
             sensor_class = cls._registry[sensor_type]
         except KeyError:
             raise SensorNotRegisteredError(
-                f"Sensor type '{sensor_type}' is not registered. "
-                f"Known types: {[str(t) for t in cls._registry]}."
+                f"Sensor type '{sensor_type}' is not registered. Known types: {', '.join(str(t) for t in cls._registry)}."
             ) from None
 
-        params = config.get("params", {})
+        params = config.get("params", {})  # default to {} so a missing 'params' key is treated the same as no params given
         missing = sensor_class.REQUIRED_PARAMS - params.keys()
 
         if missing:
             raise SensorConfigError(
-                f"Sensor '{sensor_id}' (type='{sensor_type}') "
-                f"missing required params: {sorted(missing)}."
+                f"Sensor '{sensor_id}' of type '{sensor_type}' is missing required params: {', '.join(sorted(missing))}."
             )
 
         return sensor_class(
@@ -57,25 +55,19 @@ class SensorFactory:
 
             sensor_id = cfg.get("sensor_id")
             if not sensor_id:
-                errors.append(f"Missing 'sensor_id': {cfg}")
+                errors.append("A sensor config entry is missing the required 'sensor_id' field.")
                 continue
 
-            sensor_type_from_cfg = cfg.get("sensor_type")
-            if not sensor_type_from_cfg:
-                errors.append(f"{sensor_id}: missing 'sensor_type'")
-                continue
-
-            if "params" not in cfg:
-                errors.append(f"{sensor_id}: missing 'params'")
+            sensor_type_raw = cfg.get("sensor_type")
+            if not sensor_type_raw:
+                errors.append(f"Sensor '{sensor_id}' is missing the required 'sensor_type' field.")
                 continue
 
             try:
-                sensor_type = SensorType.parse(sensor_type_from_cfg)
-                sensors.append(
-                    cls.create(device_id, sensor_id, sensor_type, cfg)
-                )
-            except (KeyError, ValueError, SensorNotRegisteredError, SensorConfigError) as e:
-                errors.append(f"{sensor_id}: {e}")
+                sensor_type = SensorType.parse(sensor_type_raw)
+                sensors.append(cls.create(device_id, sensor_id, sensor_type, cfg))
+            except (ValueError, SensorNotRegisteredError, SensorConfigError) as e:
+                errors.append(str(e))
 
         if errors:
             raise SensorConfigError(
