@@ -16,7 +16,7 @@ class MQ135Sensor(PolledSensor):
 
     REQUIRED_PARAMS: frozenset[str] = frozenset({"adc_channel"})
 
-    def __init__(self, device_id: str, sensor_id: str, warmup_seconds: float, adc_channel: int = 0):
+    def __init__(self, device_id: str, sensor_id: str, warmup_seconds: float, adc_channel: int):
         super().__init__(device_id, sensor_id, warmup_seconds)
         self._adc_channel = adc_channel
 
