@@ -5,9 +5,13 @@
 # SPDX-License-Identifier: MIT
 # Written by Dragomir J. <12-Feb-2026>
 # ***************************************************************************** 
+from typing import TypeAlias
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from src.common.enums.sensor_type import SensorType
+
+MetadataValue: TypeAlias = str | int | float | bool | None
+Metadata:      TypeAlias = dict[str, MetadataValue]
 
 @dataclass(frozen=True, slots=True)
 class SensorReading:
@@ -18,4 +22,4 @@ class SensorReading:
     value:       float
     unit:        str
     timestamp:   datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    metadata:    dict[str, str | int | float | bool] = field(default_factory=dict[str, str | int | float | bool])
+    metadata:    Metadata = field(default_factory=lambda: {})
