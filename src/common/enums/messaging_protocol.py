@@ -15,8 +15,6 @@ class MessagingProtocol(Enum):
     """
 
     MQTT = 'mqtt'
-    COAP = 'coap'
-    HTTP = "http"
 
     @classmethod
     def parse(cls, value: str) -> "MessagingProtocol":
