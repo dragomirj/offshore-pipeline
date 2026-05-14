@@ -7,15 +7,9 @@
 # *****************************************************************************
 import pytest
 from enum import Enum
-from src.common.enums.deployment_environment import DeploymentEnvironment
-from src.common.enums.messaging_protocol import MessagingProtocol
-from src.common.enums.sensor_type import SensorType
+from tests.utils.enums import get_all_parsable_enums
 
-ENUMS: list[type[Enum]] = [
-    DeploymentEnvironment,
-    MessagingProtocol,
-    SensorType,
-]
+ENUMS = get_all_parsable_enums("src.common.enums")
 
 def get_parse(enum_cls: type[Enum]):
     return getattr(enum_cls, "parse")
