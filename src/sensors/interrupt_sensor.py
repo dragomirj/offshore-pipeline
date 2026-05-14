@@ -34,7 +34,7 @@ class InterruptSensor(Sensor):
         if self._queue.full():
             try:
                 self._queue.get_nowait()
-            except asyncio.QueueEmpty:
+            except asyncio.QueueEmpty:  # pragma: no cover
                 pass
             
             self._dropped_count += 1
