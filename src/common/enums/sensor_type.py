@@ -18,6 +18,13 @@ class SensorType(ParsableEnum):
     across overlapping physical domains (temperature, humidity, gas concentration)
     which enables correlation analysis, supervised prediction, and anomaly detection
     in downstream Spark and ksqlDB jobs.
+
+    Adding a new sensor type requires changes in following places:
+      1. Add the enum member here
+      2. Add a hardware driver in /src/sensors/drivers/<type>.py
+      3. Register driver in /src/sensors/registry.py
+      4. Add simulation profiles in /src/simulation/profiles/<type>_profiles.py
+      5. Register simulation profiles in /src/simulation/registry.py
     """
 
     BME280 = "bme280"
