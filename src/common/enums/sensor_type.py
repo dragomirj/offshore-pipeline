@@ -6,28 +6,41 @@
 # Written by Dragomir J. <11-Feb-2026>
 # *****************************************************************************
 from enum import unique
+from typing import Self
 from src.common.enums.base import ParsableEnum
+from src.common.enums.sensor_mode import SensorMode
 
 @unique
 class SensorType(ParsableEnum):
     """
-    Enum of sensor types for an event-driven, IoT-focused ETL system.
-    Values are normalized to lowercase to ensure consistent identifiers across the codebase and configuration (e.g., YAML keys).
+    Sensor types available in the pipeline, each with an associated SensorMode.
 
     Selection rationale: these sensors produce continuous numeric signals
     across overlapping physical domains (temperature, humidity, gas concentration)
     which enables correlation analysis, supervised prediction, and anomaly detection
     in downstream Spark and ksqlDB jobs.
 
-    Adding a new sensor type requires changes in following places:
-      1. Add the enum member here
+    Adding a new sensor type requires changes in the following places:
+      1. Add the enum member here with the correct SensorMode
       2. Add a hardware driver in /src/sensors/drivers/<type>.py
       3. Register driver in /src/sensors/registry.py
       4. Add simulation profiles in /src/simulation/profiles/<type>_profiles.py
       5. Register simulation profiles in /src/simulation/registry.py
     """
 
-    BME280 = "bme280"
-    MQ7    = "mq7"
-    MQ135  = "mq135"
-    SCD40  = "scd40"
+    _mode: SensorMode  # instance attribute, not an enum member; assigned in __new__
+
+    def __new__(cls, value: str, mode: SensorMode) -> Self:
+        obj = object.__new__(cls)
+        obj._value_ = value
+        obj._mode   = mode
+        return obj
+
+    BME280 = ("bme280", SensorMode.POLLED)
+    MQ7    = ("mq7",    SensorMode.POLLED)
+    MQ135  = ("mq135",  SensorMode.POLLED)
+    SCD40  = ("scd40",  SensorMode.POLLED)
+
+    @property
+    def mode(self) -> SensorMode:  # pragma: no cover
+        return self._mode
