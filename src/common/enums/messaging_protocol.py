@@ -10,9 +10,4 @@ from src.common.enums.base import ParsableEnum
 
 @unique
 class MessagingProtocol(ParsableEnum):
-    """
-    Enum of messaging protocols for an event-driven, IoT-focused ETL system.
-    Values are normalized to lowercase to ensure consistent identifiers across the codebase and configuration (e.g., YAML keys).
-    """
-
     MQTT = 'mqtt'
