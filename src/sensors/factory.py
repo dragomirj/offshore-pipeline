@@ -29,7 +29,7 @@ class SensorFactory:
                 f"Sensor type '{sensor_type}' is not registered. Known types: {', '.join(str(t) for t in cls._registry)}."
             ) from None
 
-        params = config.get("params", {})  # default to {} so a missing 'params' key is treated the same as no params given
+        params = config.get("params", {})  # sensors with no REQUIRED_PARAMS don't need a params key in YAML
         missing = sensor_class.REQUIRED_PARAMS - params.keys()
 
         if missing:
