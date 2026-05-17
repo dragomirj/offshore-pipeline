@@ -36,10 +36,11 @@ class SensorType(ParsableEnum):
         obj._mode   = mode
         return obj
 
-    BME280 = ("bme280", SensorMode.POLLED)
-    MQ7    = ("mq7",    SensorMode.POLLED)
-    MQ135  = ("mq135",  SensorMode.POLLED)
-    SCD40  = ("scd40",  SensorMode.POLLED)
+    ADXL345 = ("adxl345", SensorMode.INTERRUPT)
+    BME280  = ("bme280",  SensorMode.POLLED)
+    MQ7     = ("mq7",     SensorMode.POLLED)
+    MQ135   = ("mq135",   SensorMode.POLLED)
+    SCD40   = ("scd40",   SensorMode.POLLED)
 
     @property
     def mode(self) -> SensorMode:  # pragma: no cover

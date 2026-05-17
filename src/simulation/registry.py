@@ -7,6 +7,7 @@
 # *****************************************************************************
 from src.common.enums.sensor_type import SensorType
 from src.common.models.channel_profile import ChannelProfile
+from src.simulation.profiles.adxl345_profiles import ADXL345_PROFILES
 from src.simulation.profiles.bme280_profiles import BME280_PROFILES
 from src.simulation.profiles.mq135_profiles import MQ135_PROFILES
 from src.simulation.profiles.mq7_profiles import MQ7_PROFILES
@@ -14,6 +15,7 @@ from src.simulation.profiles.scd40_profiles import SCD40_PROFILES
 
 # Maps SensorType to concrete simulation profiles; defined once to avoid duplication
 SIMULATION_REGISTRY: dict[SensorType, list[ChannelProfile]] = {
+    SensorType.ADXL345: ADXL345_PROFILES,
     SensorType.BME280:  BME280_PROFILES,
     SensorType.MQ135:   MQ135_PROFILES,
     SensorType.SCD40:   SCD40_PROFILES,
