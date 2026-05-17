@@ -35,7 +35,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip setuptools wheel
-        python -m pip install flake8 pytest
+        python -m pip install flake8 pytest mypy
     - name: Install requirements (Linux/macOS)
       if: runner.os != 'Windows'
       run: |
@@ -57,6 +57,9 @@ jobs:
       run: |
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+    - name: Type check with mypy
+      run: |
+        mypy src/
     - name: Test with pytest
       run: |
         pytest -q --cov=src --cov-report=term --cov-fail-under=80
