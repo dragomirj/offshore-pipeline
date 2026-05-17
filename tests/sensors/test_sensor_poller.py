@@ -22,7 +22,7 @@ async def test_run_happy_path_calls_callback_and_sleeps(monkeypatch: pytest.Monk
     sleep = AsyncMock()
     monkeypatch.setattr(asyncio, "sleep", sleep)
 
-    poller = SensorPoller(readable, callback, poll_interval=0.1)
+    poller = SensorPoller(readable, callback, poll_interval_seconds=0.1)
 
     with pytest.raises(asyncio.CancelledError):
         await poller.run()
@@ -44,7 +44,7 @@ async def test_run_no_sleep_when_blocking(monkeypatch: pytest.MonkeyPatch):
     sleep = AsyncMock()
     monkeypatch.setattr(asyncio, "sleep", sleep)
 
-    poller = SensorPoller(readable, callback, poll_interval=0.1)
+    poller = SensorPoller(readable, callback, poll_interval_seconds=0.1)
 
     with pytest.raises(asyncio.CancelledError):
         await poller.run()
@@ -70,7 +70,7 @@ async def test_run_retries_then_recovers_and_resets_error_counter(monkeypatch: p
     sleep = AsyncMock()
     monkeypatch.setattr(asyncio, "sleep", sleep)
 
-    poller = SensorPoller(readable, callback, poll_interval=0.1, max_errors=3)
+    poller = SensorPoller(readable, callback, poll_interval_seconds=0.1, max_errors=3)
 
     with pytest.raises(asyncio.CancelledError):
         await poller.run()
@@ -100,7 +100,7 @@ async def test_run_raises_after_max_errors(monkeypatch: pytest.MonkeyPatch):
     sleep = AsyncMock()
     monkeypatch.setattr(asyncio, "sleep", sleep)
 
-    poller = SensorPoller(readable, callback, poll_interval=0.1, max_errors=3)
+    poller = SensorPoller(readable, callback, poll_interval_seconds=0.1, max_errors=3)
 
     with pytest.raises(RuntimeError, match="failed 3 consecutive times"):
         await poller.run()
@@ -127,7 +127,7 @@ async def test_error_counter_properly_resets(monkeypatch: pytest.MonkeyPatch):
     callback = AsyncMock()
     monkeypatch.setattr(asyncio, "sleep", AsyncMock())
 
-    poller = SensorPoller(readable, callback, poll_interval=0.1, max_errors=3)
+    poller = SensorPoller(readable, callback, poll_interval_seconds=0.1, max_errors=3)
 
     with pytest.raises(asyncio.CancelledError):
         await poller.run()
@@ -155,7 +155,7 @@ async def test_callback_exception_is_treated_as_failure(monkeypatch: pytest.Monk
     sleep = AsyncMock()
     monkeypatch.setattr(asyncio, "sleep", sleep)
 
-    poller = SensorPoller(readable, callback, poll_interval=0.1, max_errors=3)
+    poller = SensorPoller(readable, callback, poll_interval_seconds=0.1, max_errors=3)
 
     with pytest.raises(asyncio.CancelledError):
         await poller.run()
@@ -180,7 +180,7 @@ async def test_cancelled_error_propagates_without_counting(monkeypatch: pytest.M
     sleep = AsyncMock()
     monkeypatch.setattr(asyncio, "sleep", sleep)
 
-    poller = SensorPoller(readable, callback, poll_interval=0.1)
+    poller = SensorPoller(readable, callback, poll_interval_seconds=0.1)
 
     with pytest.raises(asyncio.CancelledError):
         await poller.run()
@@ -198,7 +198,7 @@ async def test_initialize_failure_does_not_call_close(monkeypatch: pytest.Monkey
 
     callback = AsyncMock()
 
-    poller = SensorPoller(readable, callback, poll_interval=0.1)
+    poller = SensorPoller(readable, callback, poll_interval_seconds=0.1)
 
     with pytest.raises(Exception, match="init failed"):
         await poller.run()

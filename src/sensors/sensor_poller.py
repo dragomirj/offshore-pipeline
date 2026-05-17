@@ -19,10 +19,10 @@ class SensorPoller:
     Asynchronously polls a readable sensor or simulator at a specified interval and invokes a callback with the readings.
     """
 
-    def __init__(self, readable: Readable, callback: Callable[[list[SensorReading]], Awaitable[None]], poll_interval: float, max_errors: int = SENSOR_POLLER_MAX_ERRORS):
+    def __init__(self, readable: Readable, callback: Callable[[list[SensorReading]], Awaitable[None]], poll_interval_seconds: float, max_errors: int = SENSOR_POLLER_MAX_ERRORS):
         self._readable    = readable
         self._callback    = callback
-        self._interval    = poll_interval
+        self._interval    = poll_interval_seconds
         self._max_errors  = max_errors
         self._error_count = 0
 
