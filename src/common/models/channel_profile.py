@@ -5,7 +5,9 @@
 # SPDX-License-Identifier: MIT
 # Written by Dragomir J. <19-Feb-2026>
 # ***************************************************************************** 
-from dataclasses import dataclass, field
+from __future__ import annotations
+from dataclasses import dataclass
+from typing import Optional
 from src.common.enums.sensor_type import SensorType
 
 @dataclass
@@ -22,7 +24,9 @@ class ChannelProfile:
     spike_probability:          float = 0.02
     spike_magnitude_multiplier: float = 3.0
     spike_duration_ticks:       int   = 5
-    alert_threshold:            float = field(init=False)
+    alert_threshold:            Optional[float] = None
 
     def __post_init__(self) -> None:
-        self.alert_threshold = self.mean + 2.5 * self.std_dev
+        if self.alert_threshold is None:
+            # Gaussian default. Set explicitly in the profile for non-Gaussian processes like Cox-Ingersoll-Ross (CIR).
+            self.alert_threshold = self.mean + 2.5 * self.std_dev
