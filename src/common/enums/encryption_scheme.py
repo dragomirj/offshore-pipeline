@@ -13,12 +13,12 @@ class EncryptionScheme(ParsableEnum):
     """
     Encryption schemes for sensor events.
 
-    - NONE: Permitted in SIMULATION and DEVELOPMENT. Prohibited in STAGING and PRODUCTION.
+    - NO_ENCRYPTION: Permitted in SIMULATION and DEVELOPMENT. Prohibited in STAGING and PRODUCTION.
       See: DeploymentEnvironment.requires_encryption()
 
     - AES_GCM / CHACHA20_POLY1305: Permitted in all environments.
     """
 
-    NONE              = "none"
+    NO_ENCRYPTION     = "no_encryption"
     AES_GCM           = "aes_gcm"
     CHACHA20_POLY1305 = "chacha20_poly1305"
