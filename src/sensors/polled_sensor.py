@@ -9,7 +9,7 @@ import asyncio
 from abc import abstractmethod
 from src.sensors.base import Sensor, SensorReadError
 from src.common.models.sensor_reading import SensorReading
-from src.sensors.constants import POLLED_SENSOR_READ_TIMEOUT
+from src.sensors.constants import POLLED_SENSOR_READ_TIMEOUT_SECONDS
 
 class PolledSensor(Sensor):
     """
@@ -23,7 +23,7 @@ class PolledSensor(Sensor):
         if not self._ready:
             raise SensorReadError(f"Sensor '{self.sensor_id}' has not been initialized.")
         try:
-            return await asyncio.wait_for(self._read_hardware(), timeout=POLLED_SENSOR_READ_TIMEOUT)
+            return await asyncio.wait_for(self._read_hardware(), timeout=POLLED_SENSOR_READ_TIMEOUT_SECONDS)
         except asyncio.TimeoutError as exc:
             raise SensorReadError(f"Sensor '{self.sensor_id}' timed out waiting for a reading.") from exc
 

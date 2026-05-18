@@ -5,7 +5,7 @@
 # SPDX-License-Identifier: MIT
 # Written by Dragomir J. <13-Feb-2026>
 # *****************************************************************************
-POLLED_SENSOR_READ_TIMEOUT = 1.5  # Timeout for reading from a polled sensor (seconds)
-INTERRUPT_SENSOR_MAX_QUEUE_SIZE = 64  # Maximum number of unprocessed events
-SENSOR_POLLER_MAX_ERRORS = 9  # Maximum consecutive read errors before giving up
-SENSOR_POLLER_BACKOFF_CAP = 30.0  # Upper bound on exponential backoff between retries (seconds)
+POLLED_SENSOR_READ_TIMEOUT_SECONDS = 1.5
+INTERRUPT_SENSOR_MAX_QUEUE_SIZE = 64
+SENSOR_POLLER_MAX_ERRORS = 9
+SENSOR_POLLER_BACKOFF_CAP_SECONDS = 30.0

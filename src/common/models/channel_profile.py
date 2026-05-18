@@ -7,7 +7,6 @@
 # ***************************************************************************** 
 from __future__ import annotations
 from dataclasses import dataclass
-from typing import Optional
 from src.common.enums.sensor_type import SensorType
 
 @dataclass
@@ -24,7 +23,7 @@ class ChannelProfile:
     spike_probability:          float = 0.02
     spike_magnitude_multiplier: float = 3.0
     spike_duration_ticks:       int   = 5
-    alert_threshold:            Optional[float] = None
+    alert_threshold:            float | None = None
 
     def __post_init__(self) -> None:
         if self.alert_threshold is None:

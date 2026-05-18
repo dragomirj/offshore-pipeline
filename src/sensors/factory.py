@@ -6,7 +6,7 @@
 # Written by Dragomir J. <13-Feb-2026>
 # *****************************************************************************
 from __future__ import annotations
-from typing import Any, Type
+from typing import Any
 from src.common.enums.sensor_type import SensorType
 from src.sensors.base import Sensor
 from src.sensors.registry import SENSOR_REGISTRY
@@ -18,7 +18,7 @@ class SensorConfigError(Exception):
     """Raised when sensor configuration is invalid."""
 
 class SensorFactory:
-    _registry: dict[SensorType, Type[Sensor]] = dict(SENSOR_REGISTRY)
+    _registry: dict[SensorType, type[Sensor]] = dict(SENSOR_REGISTRY)
 
     @classmethod
     def create(cls, device_id: str, sensor_id: str, sensor_type: SensorType, config: dict[str, Any]) -> Sensor:
@@ -78,7 +78,7 @@ class SensorFactory:
         return sensors
 
     @classmethod
-    def get_sensor_class(cls, sensor_type: SensorType) -> Type[Sensor]:
+    def get_sensor_class(cls, sensor_type: SensorType) -> type[Sensor]:
         try:
             return cls._registry[sensor_type]
         except KeyError:

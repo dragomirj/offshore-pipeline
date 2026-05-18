@@ -8,7 +8,7 @@
 import pytest
 import asyncio
 from src.common.models.sensor_reading import SensorReading
-from src.sensors.constants import POLLED_SENSOR_READ_TIMEOUT
+from src.sensors.constants import POLLED_SENSOR_READ_TIMEOUT_SECONDS
 from src.sensors.polled_sensor import PolledSensor
 from src.sensors.polled_sensor import SensorReadError
 from tests.utils.sensors import create_dummy_reading
@@ -51,7 +51,7 @@ async def test_read_returns_hardware_result():
 async def test_read_converts_timeout_to_sensor_error():
     class SlowPolledSensor(DummyPolledSensor):
         async def _read_hardware(self) -> list[SensorReading]:
-            await asyncio.sleep(POLLED_SENSOR_READ_TIMEOUT + 1)
+            await asyncio.sleep(POLLED_SENSOR_READ_TIMEOUT_SECONDS + 1)
             return []  # pragma: no cover
 
     sensor = SlowPolledSensor()

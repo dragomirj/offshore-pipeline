@@ -16,10 +16,10 @@ from src.sensors.factory import (
 )
 from src.common.enums.sensor_type import SensorType
 
-DUMMY_DEVICE_ID = "dummyDeviceId"
-DUMMY_SENSOR_ID_1 = "dummySensorId1"
-DUMMY_SENSOR_ID_2 = "dummySensorId2"
-DUMMY_SENSOR_TYPE = SensorType.BME280
+DUMMY_DEVICE_ID     = "dummyDeviceId"
+DUMMY_SENSOR_ID_1   = "dummySensorId1"
+DUMMY_SENSOR_ID_2   = "dummySensorId2"
+DUMMY_SENSOR_TYPE   = SensorType.BME280
 WARMUP_OF_5_SECONDS = 5.0
 
 class DummySensor(Sensor):

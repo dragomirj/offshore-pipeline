@@ -10,7 +10,7 @@ import logging
 from collections.abc import Callable, Awaitable
 from src.common.interfaces.readable import Readable
 from src.common.models.sensor_reading import SensorReading
-from src.sensors.constants import SENSOR_POLLER_BACKOFF_CAP, SENSOR_POLLER_MAX_ERRORS
+from src.sensors.constants import SENSOR_POLLER_BACKOFF_CAP_SECONDS, SENSOR_POLLER_MAX_ERRORS
 
 logger = logging.getLogger(__name__)
 
@@ -19,7 +19,13 @@ class SensorPoller:
     Asynchronously polls a readable sensor or simulator at a specified interval and invokes a callback with the readings.
     """
 
-    def __init__(self, readable: Readable, callback: Callable[[list[SensorReading]], Awaitable[None]], poll_interval_seconds: float, max_errors: int = SENSOR_POLLER_MAX_ERRORS):
+    def __init__(
+        self,
+        readable: Readable,
+        callback: Callable[[list[SensorReading]], Awaitable[None]],
+        poll_interval_seconds: float,
+        max_errors: int = SENSOR_POLLER_MAX_ERRORS,
+    ):
         self._readable    = readable
         self._callback    = callback
         self._interval    = poll_interval_seconds
@@ -48,7 +54,7 @@ class SensorPoller:
                         raise RuntimeError(
                             f"Sensor '{getattr(self._readable, 'sensor_id', 'unknown')}' failed {self._max_errors} consecutive times: {e}"
                         ) from e
-                    backoff = min(self._interval * (2 ** self._error_count), SENSOR_POLLER_BACKOFF_CAP)
+                    backoff = min(self._interval * (2 ** self._error_count), SENSOR_POLLER_BACKOFF_CAP_SECONDS)
                     await asyncio.sleep(backoff)
                 else:
                     self._error_count = 0

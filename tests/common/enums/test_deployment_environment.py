@@ -11,10 +11,10 @@ from src.common.enums.deployment_environment import DeploymentEnvironment
 @pytest.mark.parametrize(
     "env,expected",
     [
-        (DeploymentEnvironment.SIMULATION, True),
+        (DeploymentEnvironment.SIMULATION,  True),
         (DeploymentEnvironment.DEVELOPMENT, True),
-        (DeploymentEnvironment.STAGING, True),
-        (DeploymentEnvironment.PRODUCTION, False),
+        (DeploymentEnvironment.STAGING,     True),
+        (DeploymentEnvironment.PRODUCTION,  False),
     ],
 )
 def test_supports_simulation(env: DeploymentEnvironment, expected: bool):
@@ -24,10 +24,10 @@ def test_supports_simulation(env: DeploymentEnvironment, expected: bool):
 @pytest.mark.parametrize(
     "env,expected",
     [
-        (DeploymentEnvironment.SIMULATION, False),
+        (DeploymentEnvironment.SIMULATION,  False),
         (DeploymentEnvironment.DEVELOPMENT, True),
-        (DeploymentEnvironment.STAGING, True),
-        (DeploymentEnvironment.PRODUCTION, True),
+        (DeploymentEnvironment.STAGING,     True),
+        (DeploymentEnvironment.PRODUCTION,  True),
     ],
 )
 def test_requires_structured_serialization(env: DeploymentEnvironment, expected: bool):
@@ -37,10 +37,10 @@ def test_requires_structured_serialization(env: DeploymentEnvironment, expected:
 @pytest.mark.parametrize(
     "env,expected",
     [
-        (DeploymentEnvironment.SIMULATION, False),
+        (DeploymentEnvironment.SIMULATION,  False),
         (DeploymentEnvironment.DEVELOPMENT, False),
-        (DeploymentEnvironment.STAGING, True),
-        (DeploymentEnvironment.PRODUCTION, True),
+        (DeploymentEnvironment.STAGING,     True),
+        (DeploymentEnvironment.PRODUCTION,  True),
     ],
 )
 def test_requires_encryption(env: DeploymentEnvironment, expected: bool):
