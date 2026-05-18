@@ -9,7 +9,7 @@ from enum import Enum
 from typing import Self
 
 class ParsableEnum(Enum):
-    """Base enum whose values are normalized to lowercase for consistent use as configuration keys."""
+    """Base class for enums that can be constructed from string configuration values."""
 
     @classmethod
     def parse(cls, value: str) -> Self:

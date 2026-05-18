@@ -10,4 +10,11 @@ from src.common.enums.base import ParsableEnum
 
 @unique
 class MessagingProtocol(ParsableEnum):
-    MQTT = 'mqtt'
+    """
+    Transport protocols used across the platform.
+
+    - MQTT: used by IoT devices to publish sensor readings to a broker.
+    - KAFKA: broker to downstream consumers (Spark, ksqlDB). Planned.
+    """
+
+    MQTT = "mqtt"

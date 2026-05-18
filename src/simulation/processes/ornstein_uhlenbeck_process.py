@@ -9,6 +9,8 @@ import random
 from src.common.models.channel_profile import ChannelProfile
 
 class OrnsteinUhlenbeckProcess:
+    """Discrete-time simulation of an Ornstein-Uhlenbeck process for a single channel."""
+
     def __init__(self, profile: ChannelProfile):
         self._profile      = profile
         self._value        = profile.mean + random.gauss(0, profile.std_dev)

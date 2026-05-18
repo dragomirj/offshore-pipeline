@@ -10,6 +10,7 @@ from abc import ABC, abstractmethod
 from src.common.models.sensor_reading import SensorReading
 
 class SensorReadError(Exception):
+    """Raised when a sensor read fails due to timeout or calling read() before initialize()."""
     pass
 
 class Sensor(ABC):

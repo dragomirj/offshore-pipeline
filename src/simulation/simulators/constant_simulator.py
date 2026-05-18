@@ -11,9 +11,9 @@ from src.simulation.metadata import simulation_metadata
 
 class ConstantSimulator:
     """
-    Simulates a constant process where the value remains fixed over time. 
-    The state does not evolve with random noise and stays at a predefined constant mean, 
-    resulting in a stable output without fluctuation or variance.
+    Simulates a constant process where every channel is fixed at its mean with no noise or drift.
+    Drop-in replacement for OrnsteinUhlenbeckSimulator in SimulationFactory.create_polled
+    for testing and for scenarios where constant baseline data is required.
     """
     
     def __init__(self, device_id: str, sensor_id: str, profiles: list[ChannelProfile]):
