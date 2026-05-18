@@ -5,13 +5,14 @@
 # SPDX-License-Identifier: MIT
 # Written by Dragomir J. <12-Feb-2026>
 # ***************************************************************************** 
-from typing import TypeAlias
+from types import MappingProxyType
+from typing import Mapping, TypeAlias
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from src.common.enums.sensor_type import SensorType
 
 MetadataValue: TypeAlias = str | int | float | bool | None
-Metadata:      TypeAlias = dict[str, MetadataValue]
+Metadata:      TypeAlias = Mapping[str, MetadataValue]
 
 @dataclass(frozen=True, slots=True)
 class SensorReading:
@@ -22,4 +23,7 @@ class SensorReading:
     value:       float
     unit:        str
     timestamp:   datetime = field(default_factory=lambda: datetime.now(timezone.utc))
-    metadata:    Metadata = field(default_factory=lambda: {})
+    metadata:    Metadata = field(default_factory=lambda: MappingProxyType({})) 
+
+    def __post_init__(self) -> None:
+        object.__setattr__(self, "metadata", MappingProxyType(dict(self.metadata)))
