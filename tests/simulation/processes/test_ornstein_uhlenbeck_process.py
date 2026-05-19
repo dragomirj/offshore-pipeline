@@ -9,13 +9,11 @@ from src.common.enums.sensor_type import SensorType
 from src.common.models.channel_profile import ChannelProfile
 from src.simulation.processes.ornstein_uhlenbeck_process import OrnsteinUhlenbeckProcess
 
-PROFILE_MIN = 0.0
-PROFILE_MAX = 100.0
-PROFILE_MEAN = 50.0
+PROFILE_MIN     = 0.0
+PROFILE_MAX     = 100.0
+PROFILE_MEAN    = 50.0
 PROFILE_STD_DEV = 5.0
-PROFILE_MEAN_REVERSION_SPEED = 0.1
 PROFILE_SPIKE_MAGNITUDE_MULTIPLIER = 3.0
-PROFILE_VOLATILITY = 1.0
 
 def _make_process(spike_probability: float = 0.0, spike_duration: int = 5) -> OrnsteinUhlenbeckProcess:
     profile = ChannelProfile(
@@ -26,8 +24,8 @@ def _make_process(spike_probability: float = 0.0, spike_duration: int = 5) -> Or
         max_value=PROFILE_MAX,
         mean=PROFILE_MEAN,
         std_dev=PROFILE_STD_DEV,
-        mean_reversion_speed=PROFILE_MEAN_REVERSION_SPEED,
-        volatility=PROFILE_VOLATILITY,
+        mean_reversion_speed=0.1,
+        volatility=1.0,
         spike_probability=spike_probability,
         spike_magnitude_multiplier=PROFILE_SPIKE_MAGNITUDE_MULTIPLIER,
         spike_duration_ticks=spike_duration,
@@ -62,3 +60,10 @@ def test_is_spiking_false_with_zero_spike_probability():
     for _ in range(200):
         process.next()
     assert process.is_spiking is False
+
+def test_spike_target_is_always_displaced_from_mean():
+    # OU spikes are bidirectional, so the target can be above or below mean
+    process = _make_process(spike_probability=1.0, spike_duration=5)
+    process.next()
+    expected = PROFILE_SPIKE_MAGNITUDE_MULTIPLIER * PROFILE_STD_DEV
+    assert process._spike_target in (PROFILE_MEAN + expected, PROFILE_MEAN - expected)  # pyright: ignore[reportPrivateUsage]

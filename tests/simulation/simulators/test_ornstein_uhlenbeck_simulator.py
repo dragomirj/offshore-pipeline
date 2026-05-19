@@ -16,7 +16,7 @@ PROFILE_MIN  = 0.0
 PROFILE_MAX  = 100.0
 PROFILE_MEAN = 50.0
 PROFILE_STD  = 1.5
-# alert_threshold is computed as mean + 2.5 * std_dev in ChannelProfile.__post_init__
+# Ornstein-Uhlenbeck (OU) has a Gaussian stationary distribution so the `mean + 2.5 * std_dev` default applies
 EXPECTED_ALERT_THRESHOLD = PROFILE_MEAN + 2.5 * PROFILE_STD
 
 def _make_simulator(n_profiles: int = 1) -> OrnsteinUhlenbeckSimulator:
@@ -59,6 +59,12 @@ async def test_read_metadata_includes_alert_threshold():
     simulator = _make_simulator()
     readings  = await simulator.read()
     assert readings[0].metadata["alert_threshold"] == EXPECTED_ALERT_THRESHOLD
+
+@pytest.mark.asyncio
+async def test_read_metadata_simulation_type_is_ornstein_uhlenbeck():
+    simulator = _make_simulator()
+    readings  = await simulator.read()
+    assert readings[0].metadata["simulation_type"] == "ornstein_uhlenbeck"
 
 @pytest.mark.asyncio
 async def test_initialize_and_close_complete_without_error():
