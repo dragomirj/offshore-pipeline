@@ -10,8 +10,8 @@ import os
 from src.common.enums.deployment_environment import DeploymentEnvironment
 from src.common.enums.sensor_type import SensorType
 from src.common.models.channel_profile import ChannelProfile
+from src.simulation.simulators.cox_ingersoll_ross_simulator import CoxIngersollRossSimulator
 from src.simulation.simulators.ornstein_uhlenbeck_simulator import OrnsteinUhlenbeckSimulator
-from src.simulation.simulators.constant_simulator import ConstantSimulator
 from src.simulation.registry import SIMULATION_REGISTRY
 
 class SimulationInProductionError(Exception):
@@ -32,8 +32,8 @@ class SimulationFactory:
             )
 
     @classmethod
-    def create_ornstein_uhlenbeck(cls, device_id: str, sensor_id: str, sensor_type: SensorType) -> OrnsteinUhlenbeckSimulator:
-        """Creates an Ornstein-Uhlenbeck simulator for the specified sensor type, using predefined channel profiles."""
+    def create_polled(cls, device_id: str, sensor_id: str, sensor_type: SensorType) -> OrnsteinUhlenbeckSimulator:
+        """Creates the standard polled simulator for the specified sensor type."""
         cls._guard()
         profiles = cls._registry.get(sensor_type)
         if not profiles:
@@ -41,10 +41,10 @@ class SimulationFactory:
         return OrnsteinUhlenbeckSimulator(device_id, sensor_id, profiles)
 
     @classmethod
-    def create_constant(cls, device_id: str, sensor_id: str, sensor_type: SensorType) -> ConstantSimulator:
-        """Creates a Constant simulator for the specified sensor type, using predefined channel profiles."""
+    def create_interrupt(cls, device_id: str, sensor_id: str, sensor_type: SensorType, mean_interval_seconds: float = 1.0) -> CoxIngersollRossSimulator:
+        """Creates the standard interrupt simulator for the specified sensor type."""
         cls._guard()
         profiles = cls._registry.get(sensor_type)
         if not profiles:
             raise ValueError(f"No simulation profiles for '{sensor_type.value}'.")
-        return ConstantSimulator(device_id, sensor_id, profiles)
+        return CoxIngersollRossSimulator(device_id, sensor_id, profiles, mean_interval_seconds)
