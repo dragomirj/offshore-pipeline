@@ -12,10 +12,7 @@ from src.simulation.simulators.constant_simulator import ConstantSimulator
 
 DUMMY_DEVICE_ID = "dummyDeviceId"
 DUMMY_SENSOR_ID = "dummySensorId"
-PROFILE_MIN  = 0.0
-PROFILE_MAX  = 100.0
-PROFILE_MEAN = 50.0
-PROFILE_STD  = 1.5
+PROFILE_MEAN    = 50.0
 
 def _make_simulator(n_profiles: int = 1) -> ConstantSimulator:
     profiles = [
@@ -23,10 +20,10 @@ def _make_simulator(n_profiles: int = 1) -> ConstantSimulator:
             channel=f"dummy_channel_{i}",
             unit="dummy_unit",
             sensor_type=SensorType.BME280,
-            min_value=PROFILE_MIN,
-            max_value=PROFILE_MAX,
+            min_value=0.0,
+            max_value=100.0,
             mean=PROFILE_MEAN,
-            std_dev=PROFILE_STD,
+            std_dev=1.5,
         )
         for i in range(n_profiles)
     ]
