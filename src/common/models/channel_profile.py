@@ -6,7 +6,8 @@
 # Written by Dragomir J. <19-Feb-2026>
 # ***************************************************************************** 
 from __future__ import annotations
-from dataclasses import dataclass
+import math
+from dataclasses import dataclass, field
 from src.common.enums.sensor_type import SensorType
 
 @dataclass
@@ -23,9 +24,9 @@ class ChannelProfile:
     spike_probability:          float = 0.02
     spike_magnitude_multiplier: float = 3.0
     spike_duration_ticks:       int   = 5
-    alert_threshold:            float | None = None
+    alert_threshold:            float = field(default=float("nan"))
 
     def __post_init__(self) -> None:
-        if self.alert_threshold is None:
+        if math.isnan(self.alert_threshold):
             # Gaussian default. Set explicitly in the profile for non-Gaussian processes like Cox-Ingersoll-Ross (CIR).
             self.alert_threshold = self.mean + 2.5 * self.std_dev

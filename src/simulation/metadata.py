@@ -7,10 +7,11 @@
 # *****************************************************************************
 from src.common.models.sensor_reading import Metadata, MetadataValue
 
-def simulation_metadata(simulation_type: str, **kwargs: MetadataValue) -> Metadata:
-    """Return metadata for a synthetic reading, always including 'synthetic' and 'simulation_type'."""
+def simulation_metadata(simulation_type: str, alert_threshold: float, spiking: bool, **kwargs: MetadataValue) -> Metadata:
+    """Return metadata for a synthetic reading, always including 'simulation_type', 'alert_threshold' and 'spiking'."""
     return {
-        "synthetic": True,
         "simulation_type": simulation_type,
+        "alert_threshold": alert_threshold,
+        "spiking": spiking,
         **kwargs,
     }

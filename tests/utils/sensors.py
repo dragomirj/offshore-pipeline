@@ -27,7 +27,7 @@ def create_dummy_reading(
 def create_dummy_profile(
     mean: float = 1.0,
     std_dev: float = 0.4,
-    alert_threshold: float | None = None,
+    alert_threshold: float = float("nan"),
 ) -> ChannelProfile:
     return ChannelProfile(
         channel="dummy_channel",

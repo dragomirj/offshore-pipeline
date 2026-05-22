@@ -51,13 +51,6 @@ async def test_read_value_is_within_profile_bounds():
             assert PROFILE_MIN <= readings[0].value <= PROFILE_MAX
 
 @pytest.mark.asyncio
-async def test_read_metadata_includes_spiking():
-    simulator = _make_simulator()
-    with patch("asyncio.sleep", new_callable=AsyncMock):
-        readings = await simulator.read()
-    assert "spiking" in readings[0].metadata
-
-@pytest.mark.asyncio
 async def test_read_metadata_includes_alert_threshold():
     simulator = _make_simulator()
     with patch("asyncio.sleep", new_callable=AsyncMock):

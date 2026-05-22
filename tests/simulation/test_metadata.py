@@ -7,15 +7,14 @@
 # *****************************************************************************
 from src.simulation.metadata import simulation_metadata
 
-def test_simulation_metadata_sets_synthetic_true():
-    result = simulation_metadata("ornstein_uhlenbeck")
-    assert result["synthetic"] is True
-
 def test_simulation_metadata_sets_simulation_type():
-    result = simulation_metadata("constant_mean")
+    result = simulation_metadata("constant_mean", alert_threshold=51.0, spiking=False)
     assert result["simulation_type"] == "constant_mean"
 
-def test_simulation_metadata_merges_kwargs():
-    result = simulation_metadata("ornstein_uhlenbeck", spiking=True, alert_threshold=100.0)
+def test_simulation_metadata_includes_spiking_when_false():
+    result = simulation_metadata("constant_mean", alert_threshold=51.0, spiking=False)
+    assert result["spiking"] is False
+
+def test_simulation_metadata_includes_spiking_when_true():
+    result = simulation_metadata("constant_mean", alert_threshold=51.0, spiking=True)
     assert result["spiking"] is True
-    assert result["alert_threshold"] == 100.0

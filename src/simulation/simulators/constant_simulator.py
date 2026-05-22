@@ -34,7 +34,9 @@ class ConstantSimulator:
                 value=p.mean,
                 unit=p.unit,
                 metadata=simulation_metadata(
-                    "constant_mean"
+                    "constant_mean",
+                    alert_threshold=p.alert_threshold,
+                    spiking=False,
                 ),
             )
             for p in self._profiles

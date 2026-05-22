@@ -27,22 +27,27 @@ class OrnsteinUhlenbeckSimulator:
         pass  # no warmup, no hardware
 
     async def read(self) -> list[SensorReading]:
-        return [
-            SensorReading(
-                device_id=self._device_id,
-                sensor_id=self._sensor_id,
-                sensor_type=p.sensor_type,
-                channel=p.channel,
-                value=self._processes[p.channel].next(),
-                unit=p.unit,
-                metadata=simulation_metadata(
-                    "ornstein_uhlenbeck",
-                    spiking=self._processes[p.channel].is_spiking,
-                    alert_threshold=p.alert_threshold,
-                ),
+        readings: list[SensorReading] = []
+        for p in self._profiles:
+            value   = self._processes[p.channel].next()
+            spiking = value > p.alert_threshold
+            readings.append(
+                SensorReading(
+                    device_id=self._device_id,
+                    sensor_id=self._sensor_id,
+                    sensor_type=p.sensor_type,
+                    channel=p.channel,
+                    value=value,
+                    unit=p.unit,
+                    metadata=simulation_metadata(
+                        "ornstein_uhlenbeck",
+                        alert_threshold=p.alert_threshold,
+                        spiking=spiking,
+                    )
+                )
             )
-            for p in self._profiles
-        ]
+            
+        return readings
 
     async def close(self) -> None:
         pass
