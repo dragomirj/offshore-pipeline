@@ -13,19 +13,28 @@ class SensorReadError(Exception):
     """Raised when a sensor read fails due to timeout or calling read() before initialize()."""
     pass
 
+def validate_alert_thresholds(sensor_id: str, alert_thresholds: dict[str, float], required: frozenset[str]) -> None:
+    missing = required - alert_thresholds.keys()
+    if missing:
+        raise ValueError(
+            f"Sensor '{sensor_id}' is missing required alert threshold(s): {', '.join(sorted(missing))}. "
+            "Add the missing value(s) to alert_thresholds in the device config."
+        )
+
 class Sensor(ABC):
     """
     Abstract base class for all physical hardware sensor drivers.
     See: /src/sensors/polled_sensor.py, /src/sensors/interrupt_sensor.py
     """
 
-    REQUIRED_PARAMS: frozenset[str] = frozenset()  # Subclasses can override this to enforce required config params at creation time
+    REQUIRED_PARAMS: frozenset[str] = frozenset()  # override in subclasses to declare required config parameters
 
-    def __init__(self, device_id: str, sensor_id: str, warmup_seconds: float):
-        self.device_id = device_id
-        self.sensor_id = sensor_id
-        self._warmup   = warmup_seconds
-        self._ready    = False
+    def __init__(self, device_id: str, sensor_id: str, warmup_seconds: float, alert_thresholds: dict[str, float]):
+        self.device_id         = device_id
+        self.sensor_id         = sensor_id
+        self._warmup           = warmup_seconds
+        self._alert_thresholds = alert_thresholds
+        self._ready            = False
 
     async def initialize(self) -> None:
         try:

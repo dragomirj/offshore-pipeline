@@ -5,6 +5,7 @@
 # SPDX-License-Identifier: MIT
 # Written by Dragomir J. <13-May-2026>
 # *****************************************************************************
+from src.sensors.base import validate_alert_thresholds
 from src.sensors.interrupt_sensor import InterruptSensor
 
 class ADXL345Sensor(InterruptSensor):
@@ -13,12 +14,22 @@ class ADXL345Sensor(InterruptSensor):
     Channels : vibration_g (g-force)
     """
 
-    REQUIRED_PARAMS: frozenset[str] = frozenset({"cs_pin", "interrupt_pin"})
+    REQUIRED_PARAMS:      frozenset[str] = frozenset({"cs_pin", "interrupt_pin"})
+    _REQUIRED_THRESHOLDS: frozenset[str] = frozenset({"vibration_g"})
 
-    def __init__(self, device_id: str, sensor_id: str, warmup_seconds: float, cs_pin: int, interrupt_pin: int):
-        super().__init__(device_id, sensor_id, warmup_seconds)
+    def __init__(
+        self,
+        device_id: str,
+        sensor_id: str,
+        warmup_seconds: float,
+        alert_thresholds: dict[str, float],
+        cs_pin: int,
+        interrupt_pin: int
+    ):
+        super().__init__(device_id, sensor_id, warmup_seconds, alert_thresholds)
         self._cs_pin        = cs_pin
         self._interrupt_pin = interrupt_pin
+        validate_alert_thresholds(sensor_id, self._alert_thresholds, self._REQUIRED_THRESHOLDS)
 
     async def _setup(self) -> None:
         raise NotImplementedError(

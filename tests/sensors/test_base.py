@@ -8,7 +8,7 @@
 import pytest
 from unittest.mock import AsyncMock, patch
 from src.common.models.sensor_reading import SensorReading
-from src.sensors.base import Sensor
+from src.sensors.base import Sensor, validate_alert_thresholds
 
 DUMMY_DEVICE_ID = "dummyDeviceId"
 DUMMY_SENSOR_ID = "dummySensorId"
@@ -17,7 +17,7 @@ WARMUP_OF_5_SECONDS = 5.0
 
 class DummySensor(Sensor):
     def __init__(self, warmup_seconds: float = WARMUP_OF_0_SECONDS, setup_failed: bool = False):
-        super().__init__(DUMMY_DEVICE_ID, DUMMY_SENSOR_ID, warmup_seconds=warmup_seconds)
+        super().__init__(DUMMY_DEVICE_ID, DUMMY_SENSOR_ID, warmup_seconds, {})
         self.setup_failed = setup_failed
         self.setup_called = False
         self.close_called = False
@@ -32,6 +32,17 @@ class DummySensor(Sensor):
 
     async def close(self) -> None:
         self.close_called = True
+
+def test_validate_alert_thresholds_passes_when_all_present():
+    validate_alert_thresholds(DUMMY_SENSOR_ID, {"temperature_c": 1000.0, "humidity_rh": 50.0}, frozenset({"temperature_c", "humidity_rh"}))
+
+def test_validate_alert_thresholds_raises_on_single_missing():
+    with pytest.raises(ValueError, match="Sensor '" + DUMMY_SENSOR_ID + "'.*temperature_c"):
+        validate_alert_thresholds(DUMMY_SENSOR_ID, {}, frozenset({"temperature_c"}))
+
+def test_validate_alert_thresholds_raises_on_multiple_missing():
+    with pytest.raises(ValueError, match="humidity_rh, temperature_c"):
+        validate_alert_thresholds(DUMMY_SENSOR_ID, {}, frozenset({"temperature_c", "humidity_rh"}))
 
 @pytest.mark.asyncio
 async def test_initialize_success_sets_ready():

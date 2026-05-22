@@ -17,7 +17,7 @@ WARMUP_OF_0_SECONDS = 0.0
 
 class DummyInterruptSensor(InterruptSensor):
     def __init__(self):
-        super().__init__(DUMMY_DEVICE_ID, DUMMY_SENSOR_ID, WARMUP_OF_0_SECONDS)
+        super().__init__(DUMMY_DEVICE_ID, DUMMY_SENSOR_ID, WARMUP_OF_0_SECONDS, {})
 
     async def _setup(self) -> None:  # pragma: no cover
         pass

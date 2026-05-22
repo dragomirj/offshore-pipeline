@@ -25,8 +25,8 @@ WARMUP_OF_5_SECONDS = 5.0
 class DummySensor(Sensor):
     REQUIRED_PARAMS = frozenset({"dummy_param"})
 
-    def __init__(self, device_id: str, sensor_id: str, warmup_seconds: float, **params: Any):
-        super().__init__(device_id, sensor_id, warmup_seconds)
+    def __init__(self, device_id: str, sensor_id: str, warmup_seconds: float, alert_thresholds: dict[str, float], **params: Any):
+        super().__init__(device_id, sensor_id, warmup_seconds, alert_thresholds)
         self.params = params
 
     async def _setup(self) -> None:  # pragma: no cover

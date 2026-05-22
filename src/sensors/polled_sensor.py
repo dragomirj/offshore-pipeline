@@ -16,8 +16,8 @@ class PolledSensor(Sensor):
     Base for sensors that require polling to get data.
     """
 
-    def __init__(self, device_id: str, sensor_id: str, warmup_seconds: float):
-        super().__init__(device_id, sensor_id, warmup_seconds)
+    def __init__(self, device_id: str, sensor_id: str, warmup_seconds: float, alert_thresholds: dict[str, float]):
+        super().__init__(device_id, sensor_id, warmup_seconds, alert_thresholds)
 
     async def read(self) -> list[SensorReading]:
         if not self._ready:

@@ -22,8 +22,8 @@ class InterruptSensor(Sensor):
     is observable upstream.
     """
 
-    def __init__(self, device_id: str, sensor_id: str, warmup_seconds: float):
-        super().__init__(device_id, sensor_id, warmup_seconds)
+    def __init__(self, device_id: str, sensor_id: str, warmup_seconds: float, alert_thresholds: dict[str, float]):
+        super().__init__(device_id, sensor_id, warmup_seconds, alert_thresholds)
         self._queue: asyncio.Queue[list[SensorReading]] = asyncio.Queue(maxsize=INTERRUPT_SENSOR_MAX_QUEUE_SIZE)
         self._dropped_count = 0
 

@@ -19,7 +19,7 @@ WARMUP_OF_0_SECONDS = 0.0
 
 class DummyPolledSensor(PolledSensor):
     def __init__(self, hardware_result: list[SensorReading] | None = None):
-        super().__init__(DUMMY_DEVICE_ID, DUMMY_SENSOR_ID, WARMUP_OF_0_SECONDS)
+        super().__init__(DUMMY_DEVICE_ID, DUMMY_SENSOR_ID, WARMUP_OF_0_SECONDS, {})
         self.hardware_result: list[SensorReading] = ([] if hardware_result is None else hardware_result)
 
     async def _setup(self) -> None:  # pragma: no cover

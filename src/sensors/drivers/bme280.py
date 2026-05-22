@@ -5,6 +5,7 @@
 # SPDX-License-Identifier: MIT
 # Written by Dragomir J. <13-Feb-2026>
 # *****************************************************************************
+from src.sensors.base import validate_alert_thresholds
 from src.sensors.polled_sensor import PolledSensor
 from src.common.models.sensor_reading import SensorReading
 
@@ -14,11 +15,20 @@ class BME280Sensor(PolledSensor):
     Channels : temperature_c (°C) · humidity_rh (% RH) · pressure_hpa (hPa)
     """
 
-    REQUIRED_PARAMS: frozenset[str] = frozenset({"i2c_address"})
+    REQUIRED_PARAMS:      frozenset[str] = frozenset({"i2c_address"})
+    _REQUIRED_THRESHOLDS: frozenset[str] = frozenset({"temperature_c", "humidity_rh", "pressure_hpa"})
 
-    def __init__(self, device_id: str, sensor_id: str, warmup_seconds: float, i2c_address: int):
-        super().__init__(device_id, sensor_id, warmup_seconds)
+    def __init__(
+        self, 
+        device_id: str, 
+        sensor_id: str, 
+        warmup_seconds: float, 
+        alert_thresholds: dict[str, float], 
+        i2c_address: int
+    ):
+        super().__init__(device_id, sensor_id, warmup_seconds, alert_thresholds)
         self._i2c_address = i2c_address
+        validate_alert_thresholds(sensor_id, self._alert_thresholds, self._REQUIRED_THRESHOLDS)
 
     async def _setup(self) -> None:
         raise NotImplementedError(
