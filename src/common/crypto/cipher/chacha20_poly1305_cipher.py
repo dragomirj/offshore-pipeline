@@ -33,10 +33,10 @@ class ChaCha20Poly1305Cipher(PayloadCipher):
 
     def encrypt(self, plaintext: bytes) -> bytes:
         nonce = os.urandom(self.NONCE_BYTES)
-        return nonce + self._aead.encrypt(nonce, plaintext, None)
+        return nonce + bytes(self._aead.encrypt(nonce, plaintext, None))
 
     def decrypt(self, ciphertext: bytes) -> bytes:
         if len(ciphertext) < self.NONCE_BYTES:
             raise ValueError("Ciphertext too short to contain a nonce.")
         nonce, body = ciphertext[:self.NONCE_BYTES], ciphertext[self.NONCE_BYTES:]
-        return self._aead.decrypt(nonce, body, None)
+        return bytes(self._aead.decrypt(nonce, body, None))
