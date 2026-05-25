@@ -17,7 +17,7 @@ from src.common.serialization.errors import (
     MalformedPayloadError,
     SchemaViolationError,
 )
-from src.common.serialization.serializers.protobuf.proto import sensor_event_pb2  # type: ignore[import-untyped]
+from src.common.serialization.serializers.protobuf.proto import sensor_event_pb2
 
 class ProtobufSerializer(PayloadSerializer):
     """
@@ -64,7 +64,7 @@ class ProtobufSerializer(PayloadSerializer):
             ) if event.simulation is not None else None,
         )
 
-        return pb.SerializeToString()
+        return pb.SerializeToString()  # type: ignore[no-any-return]
 
     def deserialize(self, data: bytes) -> SensorEvent:
         pb = sensor_event_pb2.SensorEvent()
