@@ -1,0 +1,40 @@
+syntax = "proto3";
+package sensor;
+
+message Location {
+  double lat = 1;
+  double lon = 2;
+}
+
+message Device {
+  string device_id = 1;
+  string sensor_id = 2;
+  string firmware_version = 3;
+  Location location = 4;
+}
+
+message Trace {
+  string event_id = 1;
+  string trace_id = 2;
+  string span_id = 3;
+}
+
+message ChannelMetadata {
+  bool spiking = 1;
+  double alert_threshold = 2;
+}
+
+message SimulationInfo {
+  string simulation_type = 1;
+}
+
+message SensorEvent {
+  int64 occurred_at = 1;
+  int64 ingested_at = 2;
+  Device device = 3;
+  map<string, double> data = 4;
+  map<string, ChannelMetadata> channels = 5;
+  Trace trace = 6;
+  repeated string tags = 7;
+  optional SimulationInfo simulation = 8;
+}
