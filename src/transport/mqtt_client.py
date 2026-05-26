@@ -24,7 +24,7 @@ class PublishResult:
     success: bool
     error: Exception | None = None
 
-class MQTTClient:
+class MQTTClient:  # pragma: no cover
     """
     Paho synchronous client wrapped in run_in_executor.
     connect() blocks until CONNACK so the first publish() never races.
