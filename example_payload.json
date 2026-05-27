@@ -1,0 +1,44 @@
+{
+    "channels": {
+        "humidity_rh": {
+            "alert_threshold": 62.5,
+            "spiking": false
+        },
+        "pressure_hpa": {
+            "alert_threshold": 1023,
+            "spiking": false
+        },
+        "temperature_c": {
+            "alert_threshold": 25.75,
+            "spiking": false
+        }
+    },
+    "data": {
+        "humidity_rh": 55.009,
+        "pressure_hpa": 1013.2,
+        "temperature_c": 23.769
+    },
+    "device": {
+        "device_id": "3bI7R4vddTIuQN5L",
+        "firmware_version": "0.1.0",
+        "location": {
+            "lat": 44.823083,
+            "lon": 20.447571
+        },
+        "sensor_id": "bme280"
+    },
+    "ingested_at": 1779911038987,
+    "occurred_at": 1779911038987,
+    "simulation": {
+        "simulation_type": "ornstein_uhlenbeck"
+    },
+    "tags": [
+        "offshore_pipeline",
+        "additional_tag"
+    ],
+    "trace": {
+        "event_id": "0e438a0c-6d27-4948-b574-75efe03c23a9",
+        "span_id": "4b35d11b3f339051",
+        "trace_id": "b0a3453831f8325c68632010f2870c92"
+    }
+}
