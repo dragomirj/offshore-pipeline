@@ -52,6 +52,10 @@ class Sensor(ABC):
     @abstractmethod
     async def read(self) -> list[SensorReading]: ...
 
+    @property
+    @abstractmethod
+    def blocks_on_read(self) -> bool: ...
+
     @abstractmethod
     async def close(self) -> None:  # pragma: no cover
         """Optional cleanup method for hardware drivers. Called on shutdown and on failed initialization."""

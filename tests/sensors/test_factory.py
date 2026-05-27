@@ -39,6 +39,10 @@ class DummySensor(Sensor):
     async def close(self) -> None:  # pragma: no cover
         pass
 
+    @property
+    def blocks_on_read(self) -> bool:
+        return False
+
 def _make_config(
     sensor_id: str = DUMMY_SENSOR_ID_1,
     warmup_seconds: float = 0.0,

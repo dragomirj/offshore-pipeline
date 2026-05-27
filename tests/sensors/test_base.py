@@ -33,6 +33,10 @@ class DummySensor(Sensor):
     async def close(self) -> None:
         self.close_called = True
 
+    @property
+    def blocks_on_read(self) -> bool:
+        return False
+
 def test_validate_alert_thresholds_passes_when_all_present():
     validate_alert_thresholds(DUMMY_SENSOR_ID, {"temperature_c": 1000.0, "humidity_rh": 50.0}, frozenset({"temperature_c", "humidity_rh"}))
 
