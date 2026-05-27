@@ -1,0 +1,67 @@
+device:
+  id: "3bI7R4vddTIuQN5L"
+  mode: simulation
+  location:
+    lat: 44.823083
+    lon: 20.447571
+  firmware_version: "0.1.0"
+  tags: ["offshore_pipeline", "additional_tag"]
+
+# `alert_thresholds` is used in hardware mode only.
+# In simulation mode, these values are ignored. The threshold is taken from the
+# channel profile, falling back to mean + 2.5 * std_dev when not explicitly set.
+sensors:
+  - sensor_id: adxl345
+    sensor_type: adxl345
+    poll_interval_seconds: 1.0
+    warmup_seconds: 0.0
+    enabled: true
+    alert_thresholds:
+      vibration_g: 2.5
+    params:
+      cs_pin: 8
+      interrupt_pin: 25
+
+  - sensor_id: bme280
+    sensor_type: bme280
+    poll_interval_seconds: 1.0
+    warmup_seconds: 30.0
+    enabled: true
+    alert_thresholds:
+      temperature_c: 85.0
+      humidity_rh: 95.0
+      pressure_hpa: 1100.0
+    params:
+      i2c_address: 0x77
+
+  - sensor_id: mq7
+    sensor_type: mq7
+    poll_interval_seconds: 1.0
+    warmup_seconds: 0.0
+    enabled: true
+    alert_thresholds:
+      co_ppm: 200.0
+    params:
+      adc_channel: 0
+
+  - sensor_id: mq135
+    sensor_type: mq135
+    poll_interval_seconds: 1.0
+    warmup_seconds: 30.0
+    enabled: true
+    alert_thresholds:
+      co2_ppm: 5000.0
+      nh3_ppm: 50.0
+    params:
+      adc_channel: 1
+
+  - sensor_id: scd40
+    sensor_type: scd40
+    poll_interval_seconds: 1.0
+    warmup_seconds: 30.0
+    enabled: true
+    alert_thresholds:
+      co2_ppm: 5000.0
+      temperature_c: 85.0
+      humidity_rh: 95.0
+    # I2C address is hardwired to 0x62 so no need to specify it in the params

@@ -1,0 +1,3 @@
+pipeline:
+  codec: protobuf
+  cipher: aes_gcm
