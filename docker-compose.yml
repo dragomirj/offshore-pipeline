@@ -1,0 +1,13 @@
+version: '3.9'
+services:
+  mqtt:
+    build:
+      context: ./docker/mosquitto
+      dockerfile: Dockerfile
+    container_name: offshore-pipeline-mqtt-broker
+    ports:
+      - "127.0.0.1:1883:1883" # only accessible from host
+    volumes:
+      - ./data/mosquitto:/mosquitto/data
+      - ./logs/mosquitto:/mosquitto/log
+    restart: unless-stopped
