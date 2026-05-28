@@ -1,5 +1,5 @@
 mqtt:
-  host: "broker.hivemq.com" #"127.0.0.1"
+  host: "127.0.0.1"
   port: 1883
   client_id: "3bI7R4vddTIuQN5L"
   keepalive: 60
